@@ -1,0 +1,181 @@
+; 80C592.SFR  80x592 PLCC68  Philips 256RAM 0KROM 0RAM
+; enhancements: CAN, Timer2, Capt, Compare, PWM, WDOG, 10 bit A/D P5
+; J. Rathlev, Aug. 2002
+
+P0        DATA    080H    ; {FFH} Port0 / AD0..7
+SP        DATA    081H    ; {07H}
+DPL       DATA    082H    ; {00}
+DPH       DATA    083H    ; {00}
+PCON      DATA    087H    ; {0} PwrDn [SMOD  -     -     WLE   GF1   GF0   PD    IDL]
+TCON      DATA    088H    ; {0} Timer Control
+
+IT0       BIT     088H    ; H = \INT L = _INT
+IE0       BIT     089H    ; INT0 flag
+IT1       BIT     08AH    ; H = \INT L = _INT
+IE1       BIT     08BH    ; INT1 flag
+TR0       BIT     08CH    ; Timer 0 RUN flag
+TF0       BIT     08DH    ; Timer 0 Overflow
+TR1       BIT     08EH    ; Timer 1 RUN flag
+TF1       BIT     08FH    ; Timer 1 Overflow
+
+TMOD      DATA    089H    ; {0}            [GATE1 C/T1  M1    M0    GATE0 C/T0  M1    M0]
+TL0       DATA    08AH    ; {0}
+TL1       DATA    08BH    ; {0}
+TH0       DATA    08CH    ; {0}
+TH1       DATA    08DH    ; {0}
+P1        DATA    090H    ; {FFH}           [SDA   SCL   RT2   T2    CT3I  CT2I  CT1I  CT0I]
+S0CON     DATA    098H    ; {0} Serial Control
+
+RI        BIT     098H    ; Rx interrupt flag
+TI        BIT     099H    ; TxMIT interrupt flag
+RB8       BIT     09AH    ; Rx bit 8
+TB8       BIT     09BH    ; Tx bit 8
+REN       BIT     09CH    ; Rx Enable
+SM2       BIT     09DH    ; Rx Enable   H = RI only IF Rx AND RB8
+SM1       BIT     09EH    ; Rx Enable   SM0  SM1 Mode
+SM0       BIT     09FH    ; Rx Enable    0    0   0  shift reg f/12
+             ;                           0    1   1  8 Bit UART @ T1
+             ;                           1    0   2  9 Bit UART @ f/64
+             ;                           1    1   3  9 Bit UART @ T1
+
+SBUF      DATA    099H    ; {??} Serial Tx/Rx register
+P2        DATA    0A0H    ; {FFH}Port2 / A8..15
+IEN0      DATA    0A8H    ; {0}
+
+EX0       BIT     0A8H    ; Enable Int X0
+ET0       BIT     0A9H    ; Enable Int Timer0
+EX1       BIT     0AAH    ; Enable Int X1
+ET1       BIT     0ABH    ; Enable Int Timer1
+ES0       BIT     0ACH    ; Enable Int Serial
+ES1       BIT     0ADH    ; Enable Int CAN
+EAD       BIT     0AEH    ; Enable Int AD
+EA        BIT     0AFH    ; Global Int Enable
+
+P3        DATA    0B0H    ; {FFH}          [RDN   WRN   T0    T1    INT1  INT0  TXD   RXD]
+IP0       DATA    0B8H    ; {0} Interrupt Priority
+
+PX0       BIT     0B8H    ; Priority Int X0
+PT0       BIT     0B9H    ; Priority Int Timer0
+PX1       BIT     0BAH    ; Priority Int X1
+PT1       BIT     0BBH    ; Priority Int Timer1
+PS0       BIT     0BCH    ; Priority Int Serial
+PS1       BIT     0BDH    ; Priority Int CAN
+PAD       BIT     0BEH    ; Priority Int A/D
+
+PSW       DATA    0D0H    ; {0} Status Byte
+
+P         BIT     0D0H    ; Parity bit for ACC
+F1        BIT     0D1H    ; User Flag1
+OV        BIT     0D2H    ; Overflow
+RS0       BIT     0D3H    ; RegBank.0
+RS1       BIT     0D4H    ; RegBank.1
+F0        BIT     0D5H    ; User Flag0
+AC        BIT     0D6H    ; Aux Carry
+CY        BIT     0D7H    ; Carry
+
+ACC       DATA    0E0H    ; {0}
+B         DATA    0F0H    ; {0}
+
+IP1       DATA    0F8H    ; {0} Int Priority 1
+
+PCT0      BIT     0F8H
+PCT1      BIT     0F9H
+PCT2      BIT     0FAH
+PCT3      BIT     0FBH
+PCM0      BIT     0FCH
+PCM1      BIT     0FDH
+PCM2      BIT     0FEH
+PT2       BIT     0FFH
+
+PWM0      DATA    0FCH    ; {0} PWM duty cycle 00:HI FF:LO
+PWM1      DATA    0FDH    ; {0} PWM duty cycle 00:HI FF:LO
+PWMP      DATA    0FEH    ; {0} PWM output freq
+T3        DATA    0FFH    ; WatchDog timer3
+
+IEN1      DATA    0E8H    ; {0}
+
+ECT0      BIT     0E8H    ; Enable Capture0
+ECT1      BIT     0E9H    ; Enable Capture1
+ECT2      BIT     0EAH    ; Enable Capture2
+ECT3      BIT     0EBH    ; Enable Capture3
+ECM0      BIT     0ECH    ; Enable Compare0
+ECM1      BIT     0EDH    ; Enable Compare1
+ECM2      BIT     0EEH    ; Enable Compare2
+ET2       BIT     0EFH    ;  Enable Timer2 OF
+
+TM2CON    DATA    0EAH    ; {0} T2 Cont  [T2IS1 T2IS0 T2ER  T2BO  T2P1  T2P0  T2MS1 T2MS0]
+CTCON     DATA    0EBH    ; {0} CaptCon   [CTN3  CTP3  CTN2  CTP2  CTN1  CTP   CTN0  CTP0]
+TML2      DATA    0ECH    ; {0} Timer 2L RdOnly
+TMH2      DATA    0EDH    ; {0} Timer 2H RdOnly
+STE       DATA    0EEH    ; {0} Set Enable  [TG47  TG46  SP45  SP44  SP43  SP42  SP41  SP40 ]
+RTE       DATA    0EFH    ; {0} Reset/Toggle[TP47  TP46  RP45  RP44  RP43  RP42  RP41  RP40 ]
+
+TM2IR     DATA    0C8H    ; Timer2 Interrupt Flags
+
+CTI0      BIT     0C8H    ; Capture0
+CTI1      BIT     0C9H    ; Capture1
+CTI2      BIT     0CAH    ; Capture2
+CTI3      BIT     0CBH    ; Capture3
+CMI0      BIT     0CCH    ; Compare0
+CMI1      BIT     0CDH    ; Compare1
+CMI2      BIT     0CEH    ; Compare2
+T2OV      BIT     0CFH    ; T2 Overflow
+
+CMH0      DATA    0C9H    ; {0} Compare0 SetPtH
+CMH1      DATA    0CAH    ; {0} Compare1 SetPtH
+CTH0      DATA    0CCH    ; {?} Capture0 ResultH
+CMH2      DATA    0CBH    ; {0} Compare2 SetPtH
+CTH1      DATA    0CDH    ; {?} Capture1 ResultH
+CTH2      DATA    0CEH    ; {?} Capture2 ResultH
+CTH3      DATA    0CFH    ; {?} Capture3 ResultH
+
+P4        DATA    0C0H    ; Port4            [CMT1  CMT2  CMSR5 CMSR4 CMSR3 CMSR2 CMSR1 CMSR0]
+P5        DATA    0C4H    ; Port5.A/D        [ADC7  ADC6  ADC5  ADC4  ADC3  ADC2  ADC1  ADC0]
+ADCON     DATA    0C5H    ; A/D Control   [ADC.1 ADC.0 ADEX  ADCI  ADCS  AADR2 AADR1 AADR0]
+ADCH      DATA    0C6H    ;  8 of 10 A/D result
+
+CML0      DATA    0A9H    ; {0} Compare0 SetPtL
+CML1      DATA    0AAH    ; {0} Compare1 SetPtL
+CML2      DATA    0ABH    ; {0} Compare2 SetPtL
+CTL0      DATA    0ACH    ; {?} Capture0 ResultL
+CTL1      DATA    0ADH    ; {?} Capture1 ResultL
+CTL2      DATA    0AEH    ; {?} Capture2 ResultL
+CTL3      DATA    0AFH    ; {?} Capture3 ResultL
+
+; CAN Extension
+
+CANSTA    DATA    0D8H    ; {0} CAN Read=Status Write=SetDMABaseAddress in Internal RAM
+
+RBS       BIT     0D8H    ; Receive Buffer Status
+DOR       BIT     0D9H    ; Data Overrun
+TBS       BIT     0DAH    ; Transmit Buffer Access
+TCS       BIT     0DBH    ; Transmit Complete Status
+RS        BIT     0DCH    ;  Receive Status
+TS        BIT     0DDH    ;  Transmit Status
+ES        BIT     0DEH    ;  Error Status
+BS        BIT     0DFH    ;  Bus Status
+
+CANCON    DATA    0D9H    ; {F8H} CAN ContR[-    -     -     WKUPI OVRI  ERRI CTXI  CRXI]
+;               CAN Cont Write  [RX0A RX1A  WKUPM SLEEP COVRN RRBF ABTX  TXRQ]
+CANDAT    DATA    0DAH    ; {0} CAN R/W Data of above address
+CANADR    DATA    0DBH    ; {64}        [DMA   -     AINC  CANA4 CANA3 CANA2 CANA1 CANA0]
+;      DMA Enable, AutoInc &  CAN Address Pointer into 32 Byte CAN Control MAP
+
+; Interrupt vector addresses and names
+
+INT0      CODE    03H
+TIMER0    CODE    0BH
+INT1      CODE    13H
+TIMER1    CODE    1BH
+SERIAL    CODE    23H
+CAN       CODE    2BH
+CT0       CODE    33H
+CT1       CODE    3BH
+CT2       CODE    43H
+CT3       CODE    4BH
+ADC       CODE    53H
+CM0       CODE    5BH
+CM1       CODE    63H
+CM2       CODE    6BH
+TIMER2    CODE    73H
+

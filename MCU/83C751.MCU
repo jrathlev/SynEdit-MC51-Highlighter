@@ -1,0 +1,100 @@
+;   83C751 processor definition file
+;   ================================
+;
+;   Attention!
+;   ----------
+;   Philips has defined four BIT symbols in the I2STA
+;   register that are leading to name conflicts:
+;
+;   1. Originally the same names have been assigned to the bits
+;      XSTP, XSTR, and IDLE in the I2STA read-only register as
+;      to the corresponding bits in the I2CON write register.
+;      To make things unique, the bit symbols in the I2STA
+;      register have been renamed to XSTP_, XSTR_, and IDLE_.
+;
+;   2. The XDATA bit symbol in the I2STA register is conflicting
+;      with the XDATA keyword from the Intel MCS-51 assembly
+;      language, and has therefore been abbreviated to XDAT.
+
+P0	DATA	080H
+SP	DATA	081H
+DPL	DATA	082H
+DPH	DATA	083H
+PCON	DATA	087H
+TCON	DATA	088H
+TL	DATA	08AH
+RTL	DATA	08BH
+TH	DATA	08CH
+RTH	DATA	08DH
+P1	DATA	090H
+I2CON   DATA    098H
+I2DAT   DATA    099H
+IE	DATA	0A8H
+P3	DATA	0B0H
+PSW	DATA	0D0H
+I2CFG   DATA    0D8H
+ACC	DATA	0E0H
+B	DATA	0F0H
+I2STA   DATA    0F8H
+
+SCL     BIT     080H
+SDA     BIT     081H
+IT1	BIT	088H
+IE1	BIT	089H
+IT0	BIT	08AH
+IE0	BIT	08BH
+TR	BIT	08CH
+TF	BIT	08DH
+CT	BIT	08EH
+GATE	BIT	08FH
+INT0	BIT	095H
+INT1	BIT	096H
+T0	BIT	097H
+XSTP    BIT     098H    ;write
+MASTER  BIT     099H    ;read
+XSTR    BIT     099H    ;write
+STP     BIT     09AH    ;read
+CSTP    BIT     09AH    ;write
+STR     BIT     09BH    ;read
+CSTR    BIT     09BH    ;write
+ARL     BIT     09CH    ;read
+CARL    BIT     09CH    ;write
+DRDY    BIT     09DH    ;read
+CDR     BIT     09DH    ;write
+ATN     BIT     09EH    ;read
+IDLE    BIT     09EH    ;write
+RDAT    BIT     09FH    ;read
+CXA     BIT     09FH    ;write
+EX0	BIT	0A8H
+ET0	BIT	0A9H
+EX1	BIT	0AAH
+ETI     BIT     0ABH
+EI2     BIT     0ACH
+EA	BIT	0AFH
+P	BIT	0D0H
+OV	BIT	0D2H
+RS0	BIT	0D3H
+RS1	BIT	0D4H
+F0	BIT	0D5H
+AC	BIT	0D6H
+CY	BIT	0D7H
+CT0     BIT     0D8H
+CT1     BIT     0D9H
+TIRUN   BIT     0DCH
+CLRTI   BIT     0DDH
+MASTRQ  BIT     0DEH
+SLAVEN  BIT     0DFH
+XSTP_   BIT     0F8H
+XSTR_   BIT     0F9H
+MAKSTP  BIT     0FAH
+MAKSTR  BIT     0FBH
+XACTV   BIT     0FCH
+XDAT    BIT     0FDH
+IDLE_   BIT     0FEH
+
+RESET	CODE	000H
+EXTI0	CODE	003H
+TIMER0	CODE	00BH
+EXTI1	CODE	013H
+TIMER1  CODE    01BH
+I2CBUS  CODE    023H
