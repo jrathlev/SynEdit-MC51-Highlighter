@@ -1,0 +1,134 @@
+;   DS 5000 processor definition file (by ak 1996/07/09)
+;   =================================
+
+P0	DATA	080H
+SP	DATA	081H
+DPL	DATA	082H
+DPH	DATA	083H
+PCON	DATA	087H	; Changes:
+			; PCON.2: EWT Enable Watchdog timer
+			; PCON.3: EPFW Enable Power Fail Interrupt
+			; PCON.4: WTR Watchog Timer Result
+			; PCON.5: PFW Power Fail Warning
+TCON	DATA	088H
+TMOD	DATA	089H
+TL0	DATA	08AH
+TL1	DATA	08BH
+TH0	DATA	08CH
+TH1	DATA	08DH
+P1	DATA	090H
+SCON	DATA	098H
+SBUF	DATA	099H
+P2	DATA	0A0H
+IE	DATA	0A8H
+P3	DATA	0B0H
+IP	DATA	0B8H
+MCON	DATA	0C6H	; Memory Control
+			; MCON.7-4: PA3-0
+			; PAA must be 1 to access PA3-0
+			; Starting address of data memory
+			; PA3 PA2 PA1 PA0 Partition address
+			; 0   0   0   0   0000H
+			; 0   0   0   1   0800H
+			; 0   0   1   0   1000H
+			; 0   0   1   1   1800H
+			; 0   1   0   0   2000H
+			; 0   1   0   1   2800H
+			; 0   1   1   0   3000H
+			; 0   1   1   1   3800H
+			; 1   0   0   0   4000H
+			; 1   0   0   1   4800H
+			; 1   0   1   0   5000H
+			; 1   0   1   1   5800H
+			; 1   1   0   0   6000H
+			; 1   1   0   1   6800H
+			; 1   1   1   0   7000H
+			; 1   1   1   1   8000H
+			;
+			; MCON.3: RA32/8
+			; Maximum usable address for int. RAM
+			; 0 = 1FFFH
+			; 1 = 7FFFH
+			;
+			; MCON.2: ECE2
+			; Enable chip enable 2
+			; Should be 0 in DS 5000, only usable in
+			; DS 5001/5002 or DS5000T
+
+			; MCON.1: PAA
+			; Partition Address Access
+			; Used to protect the programming of the
+			; Partition Address selct bits.
+			; The timed Access register must be used to
+			; Perform any type of write operation on the
+			; PAA bit.
+			;
+			; MCON.0: SL
+
+TA	DATA	0C7H	; Timed Access
+			; Write #0AAH to enable access for 4 cycles
+			; Write #055H to ensure you really mean it
+			; Use the remainig of the 4 cycles to change
+			; value of TA protected register
+			; Bits protected via TA:
+			; EWT	PCON.2	Enable watchdog
+			; RWT	IP.7	Reset watchdog
+			; STOP	PCON.1	Stop mode enable
+			; PAA	MCON.1	Partition address access
+			; POR	PCON.6	Power on Reset
+PSW	DATA	0D0H
+ACC	DATA	0E0H
+B	DATA	0F0H
+
+IT0	BIT	088H
+IE0	BIT	089H
+IT1	BIT	08AH
+IE1	BIT	08BH
+TR0	BIT	08CH
+TF0	BIT	08DH
+TR1	BIT	08EH
+TF1	BIT	08FH
+RI	BIT	098H
+TI	BIT	099H
+RB8	BIT	09AH
+TB8	BIT	09BH
+REN	BIT	09CH
+SM2	BIT	09DH
+SM1	BIT	09EH
+SM0	BIT	09FH
+EX0	BIT	0A8H
+ET0	BIT	0A9H
+EX1	BIT	0AAH
+ET1	BIT	0ABH
+ES	BIT	0ACH
+EA	BIT	0AFH
+RXD	BIT	0B0H
+TXD	BIT	0B1H
+INT0	BIT	0B2H
+INT1	BIT	0B3H
+T0	BIT	0B4H
+T1	BIT	0B5H
+WR	BIT	0B6H
+RD	BIT	0B7H
+PX0	BIT	0B8H
+PT0	BIT	0B9H
+PX1	BIT	0BAH
+PT1	BIT	0BBH
+PS	BIT	0BCH
+RWT	BIT	0BFH	; internal Watchdog
+P	BIT	0D0H
+OV	BIT	0D2H
+RS0	BIT	0D3H
+RS1	BIT	0D4H
+F0	BIT	0D5H
+AC	BIT	0D6H
+CY	BIT	0D7H
+
+RESET	CODE	000H
+EXTI0	CODE	003H
+TIMER0	CODE	00BH
+EXTI1	CODE	013H
+TIMER1	CODE	01BH
+SINT	CODE	023H
+PFWINT	CODE	02BH	; The name PFWINT does not appear
+			; in the datasheet but sounds reasonable
